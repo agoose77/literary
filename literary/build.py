@@ -22,7 +22,7 @@ def build_package_component(
     nb_exporter,
     source_dir_path,
     dest_dir_path,
-    ignore_patterns=frozenset((".ipynb_checkpoints",)),
+    ignore_patterns=frozenset((".ipynb_checkpoints", "__pycache__")),
 ):
     """Recursively build a pure-Python package from a source tree
 
