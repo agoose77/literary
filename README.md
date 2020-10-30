@@ -1,5 +1,35 @@
 # Literary
+This package is an exploration of the [literate programming](http://www.literateprogramming.com) idea [pioneered by
+ Donald
+Knuth](https://www-cs-faculty.stanford.edu/~knuth/lp.html) and implemented in the
+ [`nbdev` package](https://github.com/fastai/nbdev). Although `nbdev` looks to be a very
+mature and comprehensive tool, it is quite opinionated. This package is an
+investigation into what a smaller `nbdev` might look like.
 
+## Philosophy
+1. **Low mental overhead**   
+ Realistically, most Python programmers that wish to write packages need to have some
+ familiarity with the Python package development model, including the conventional
+structure of a package. For this reason, I feel that it is important to design
+`literary` such that these skills translate directly to designing libraries with
+notebooks
+2. **Minimal downstream impact**  
+ Users of `literary` packages should not realise that they are consuming 
+ notebook-generated code at runtime. This means that a pure-Python package needs to
+ be generated from the notebooks, and it must use the conventional import model. For
+ this reason, `literary` should only exist as a development dependency of
+ the package.
+  
+
+## Differences with `nbdev`
+* Use of cell tags instead of comments or magics to dictate exports
+* Use of `nbconvert` machinery to build the pure-Python lib package
+* Use of import hooks to import other notebooks
+    * Maintains a similar programming model to conventional module
+ development
+    * Reduces the need to modify notebook contents during conversion 
+
+## Design
 The plan for this package is:
 1. Notebooks will be written inside `<PACKAGE_NAME>/` in literary project's root directory
 2. Notebooks will respect relative imports and other pure-Python features to minimise the differences between the generated packages and the notebooks
