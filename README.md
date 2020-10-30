@@ -28,6 +28,9 @@ notebooks
     * Maintains a similar programming model to conventional module
  development
     * Reduces the need to modify notebook contents during conversion 
+* Currently no documentation generation
+    * Loosely, the plan is to use existing notebook-book tooling to re-use the
+     existing Jupyter ecosystem
 
 ## Design
 The plan for this package is:
