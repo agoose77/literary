@@ -2,6 +2,7 @@ import argparse
 import pathlib
 import nbformat
 import traitlets
+import shutil
 
 from . import exporter
 
@@ -71,7 +72,8 @@ def build_package(source_path: pathlib.Path, dest_root_path: pathlib.Path):
     nb_exporter = exporter.LiteraryPythonExporter(config=c)
 
     dest_path = dest_root_path / source_path.name
-    dest_path.unlink(missing_ok=True)
+    if dest_path.exists():
+        shutil.rmtree(dest_path)
     dest_path.mkdir()
 
     build_package_component(nb_exporter, source_path, dest_path)
