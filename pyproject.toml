@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "literary"
+version = "0.1.0"
+description = ""
+authors = ["Angus Hollands <goosey15@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+nbconvert = "^6.0.7"
+nbformat = "^5.0.8"
+traitlets = "^5.0.5"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
