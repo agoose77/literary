@@ -1,3 +1,4 @@
+import argparse
 import pathlib
 import nbformat
 import traitlets
@@ -70,6 +71,16 @@ def build_package(source_path: pathlib.Path, dest_root_path: pathlib.Path):
     nb_exporter = exporter.LiteraryPythonExporter(config=c)
 
     dest_path = dest_root_path / source_path.name
-    dest_path.mkdir(exist_ok=True)
+    dest_path.unlink(missing_ok=True)
+    dest_path.mkdir()
 
     build_package_component(nb_exporter, source_path, dest_path)
+
+
+def run(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("source", type=pathlib.Path)
+    parser.add_argument("dest_root", type=pathlib.Path)
+    args = parser.parse_args(argv)
+
+    build_package(args.source, args.dest_root)
