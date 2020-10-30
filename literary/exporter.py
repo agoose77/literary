@@ -11,6 +11,10 @@ class LiteraryPythonExporter(exporters.PythonExporter):
             LiteraryPythonPreprocessor
         ]
 
+    @traitlets.default("exclude_input_prompt")
+    def _exclude_input_prompt_default(self):
+        return True
+
     @property
     def default_config(self):
         c = traitlets.config.Config(

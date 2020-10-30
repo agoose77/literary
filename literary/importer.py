@@ -1,11 +1,33 @@
 import importlib.machinery
+import os
 import pathlib
 import sys
+from typing import AnyStr, Union
 
 import nbformat
 import traitlets.config
 
 from .exporter import LiteraryPythonExporter
+
+ROOT_PACKAGE_FILES = ["pyproject.toml", "setup.py"]
+
+
+def find_package_root(path: Union[AnyStr, os.PathLike]) -> pathlib.Path:
+    """Find the root path of the repository.
+    This assumes that all notebooks are imported
+    relative to this directory.
+
+    :param path:
+    :return:
+    """
+    path = pathlib.Path(path).absolute()
+
+    while path != path.parent:
+        for p in ROOT_PACKAGE_FILES:
+            if (path / p).exists():
+                return path
+        path = path.parent
+    raise ValueError("Could not find package root")
 
 
 class NotebookLoader(importlib.abc.SourceLoader):
@@ -31,13 +53,16 @@ class NotebookFinder(importlib.abc.MetaPathFinder):
         if path is None:
             path = self._path
 
+        head, _, module_name = fullname.rpartition(".")
+
         for entry in path:
-            notebook_path = pathlib.Path(entry) / f"{fullname}.ipynb"
+            notebook_path = pathlib.Path(entry) / f"{module_name}.ipynb"
             if notebook_path.exists():
                 spec = importlib.machinery.ModuleSpec(
                     fullname, NotebookLoader(notebook_path), origin=str(notebook_path)
                 )
                 spec.has_location = True
+                # spec.parent =
                 return spec
 
 
