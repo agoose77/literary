@@ -1,4 +1,5 @@
 # Literary
+[![PyPI version](https://badge.fury.io/py/literary.svg)](https://badge.fury.io/py/literary)  
 This package is an exploration of the [literate programming](http://www.literateprogramming.com) idea [pioneered by
  Donald
 Knuth](https://www-cs-faculty.stanford.edu/~knuth/lp.html) and implemented in the
