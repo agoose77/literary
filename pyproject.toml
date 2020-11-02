@@ -7,7 +7,7 @@ authors = ["Angus Hollands <goosey15@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 nbconvert = "^6.0.7"
-nbformat = "^5.0.8"
+nbformat = { version = "^5.0.8", extras = ["fast"] }
 traitlets = "^5.0.5"
 
 [tool.poetry.dev-dependencies]
