@@ -3,7 +3,9 @@ from nbconvert import preprocessors
 
 
 class LiteraryPythonPreprocessor(preprocessors.Preprocessor):
-    default_include_tags = traitlets.Set(traitlets.Unicode(), default_value={"export"})
+    default_include_tags = traitlets.Set(
+        traitlets.Unicode(), default_value={"export", "docstring"}
+    )
 
     def preprocess(self, nb, resources):
         nb.cells = [*self.iter_permitted_cells(nb, resources)]
