@@ -22,7 +22,7 @@ class LiteraryPythonExporter(exporters.PythonExporter):
 {%- for cell in nb.cells -%}
 {%- if "docstring" in cell.metadata.tags -%}
 {{ cell.source }}
-{%- endif -%}
+{% endif -%}
 {%- endfor -%}
 """
 {% endblock header %}
