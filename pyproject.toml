@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "literary"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Angus Hollands <goosey15@gmail.com>"]
 
@@ -9,6 +9,8 @@ python = "^3.8"
 nbconvert = "^6.0.7"
 nbformat = { version = "^5.0.8", extras = ["fast"] }
 traitlets = "^5.0.5"
+astunparse = "^1.6.3"
+Jinja2 = "^2.11.2"
 
 [tool.poetry.dev-dependencies]
 
