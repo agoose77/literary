@@ -1,34 +1,14 @@
 import importlib.machinery
+import linecache
 import os
 import pathlib
-import linecache
 import sys
 from typing import AnyStr, Union
 
 import nbformat
 import traitlets.config
 
-from .exporter import LiteraryPythonExporter
-
-ROOT_PACKAGE_FILES = ["pyproject.toml", "setup.py"]
-
-
-def find_package_root(path: Union[AnyStr, os.PathLike]) -> pathlib.Path:
-    """Find the root path of the repository.
-    This assumes that all notebooks are imported
-    relative to this directory.
-
-    :param path:
-    :return:
-    """
-    path = pathlib.Path(path).absolute()
-
-    while path != path.parent:
-        for p in ROOT_PACKAGE_FILES:
-            if (path / p).exists():
-                return path
-        path = path.parent
-    raise ValueError("Could not find package root")
+from ..exporter import LiteraryPythonExporter
 
 
 class NotebookLoader(importlib.abc.SourceLoader):
@@ -89,7 +69,29 @@ class NotebookFinder(importlib.abc.MetaPathFinder):
                 return spec
 
 
-def install_hook(path=None):
-    if path is None:
-        path = sys.path
-    sys.meta_path.insert(0, NotebookFinder(path))
+def determine_package_name(package_root_path: pathlib.Path) -> str:
+    """Determine the corresponding importable name for a package directory given by
+    a particular file path
+
+    :param package_root_path: root path containing notebook package directory
+    :return:
+    """
+    relative_path = pathlib.Path.cwd().relative_to(package_root_path)
+    return ".".join(relative_path.parts)
+
+
+def install_hook(package_root_path: Union[AnyStr, os.PathLike]):
+    """Install notebook import hook
+
+    Don't allow the user to specify a custom search path, because we also need this to
+    interoperate with the default Python module importers which use sys.path
+
+    :param package_root_path: root path containing notebook package directory
+    :return:
+    """
+    # Make notebook packages importable by adding package root path to sys.path
+    sys.path.append(str(package_root_path))
+    # To avoid bad practice, prevent cwd being used for lookups, both explicitly
+    # or from empty strings
+    sys.path = [p for p in sys.path if pathlib.Path(p).absolute() != pathlib.Path.cwd()]
+    sys.meta_path.insert(0, NotebookFinder(sys.path))
