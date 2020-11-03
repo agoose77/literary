@@ -29,6 +29,8 @@ notebooks
     * Maintains a similar programming model to conventional module
  development
     * Reduces the need to modify notebook contents during conversion 
+* Minimal runtime overhead
+    * Features like `patch` are removed from the generated module (& imported notebook source) using AST transformations
 * Currently no documentation generation
     * Loosely, the plan is to use existing notebook-book tooling to re-use the
      existing Jupyter ecosystem
