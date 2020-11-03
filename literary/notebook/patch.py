@@ -12,6 +12,7 @@ def patch(cls: Type) -> Callable[[T], T]:
     :param cls:
     :return:
     """
+
     def _notebook_patch_impl(func):
         setattr(cls, func.__name__, func)
         return func
