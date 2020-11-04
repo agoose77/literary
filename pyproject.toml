@@ -10,6 +10,7 @@ keywords = ["literate-programming", "notebook", "jupyter", "development"]
 [tool.poetry.dependencies]
 python = "^3.8"
 nbconvert = "^6.0.7"
+nbclient = "^0.5.1"
 nbformat = { version = "^5.0.8", extras = ["fast"] }
 traitlets = "^5.0.5"
 astunparse = "^1.6.3"
@@ -18,7 +19,8 @@ Jinja2 = "^2.11.2"
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.scripts]
-literary-build = 'literary.build:run'
+literary-build = 'literary.commands.build:run'
+literary-test = 'literary.commands.test:run'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
