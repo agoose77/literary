@@ -19,16 +19,21 @@ def run_notebook(path: pathlib.Path, cell_timeout: int = 120):
     logger.debug(f"Finished executing {path}")
 
 
-def run(argv=None):
-    parser = argparse.ArgumentParser(description="Test literary notebooks in parallel")
+def configure(subparsers):
+    parser = subparsers.add_parser(
+        "test",
+        description="Test literary notebooks in parallel",
+    )
     parser.add_argument(
         "source", type=pathlib.Path, help="source directory for notebooks"
     )
     parser.add_argument(
         "-j", "--jobs", default=None, type=int, help="number of " "parallel jobs to run"
     )
-    args = parser.parse_args(argv)
+    return parser
 
+
+def run(args):
     executor = ProcessPoolExecutor(max_workers=args.jobs)
     executor.map(run_notebook, args.source.glob("*.ipynb"))
     executor.shutdown()
