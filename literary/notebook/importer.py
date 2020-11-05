@@ -69,14 +69,15 @@ class NotebookFinder(importlib.abc.MetaPathFinder):
                 return spec
 
 
-def determine_package_name(package_root_path: pathlib.Path) -> str:
+def determine_package_name(path: pathlib.Path, package_root_path: pathlib.Path) -> str:
     """Determine the corresponding importable name for a package directory given by
     a particular file path
 
+    :param path: path to package
     :param package_root_path: root path containing notebook package directory
     :return:
     """
-    relative_path = pathlib.Path.cwd().relative_to(package_root_path)
+    relative_path = path.relative_to(package_root_path)
     return ".".join(relative_path.parts)
 
 

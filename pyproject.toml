@@ -15,6 +15,7 @@ nbformat = { version = "^5.0.8", extras = ["fast"] }
 traitlets = "^5.0.5"
 astunparse = "^1.6.3"
 Jinja2 = "^2.11.2"
+toml = "^0.10.2"
 
 [tool.poetry.dev-dependencies]
 

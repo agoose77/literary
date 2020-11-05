@@ -1,21 +1,43 @@
 import pathlib
 
 from .. import package
+from .. import config
 
 
 def configure(subparsers):
+    project_config = config.load_default_config(config.find_project_path())
+
     parser = subparsers.add_parser(
         "build",
         description="Build a pure-Python package from a set of Jupyter notebooks",
     )
     parser.add_argument(
-        "source", type=pathlib.Path, help="source directory for notebooks"
+        "-s",
+        "--source",
+        type=pathlib.Path,
+        default=project_config.get("source_path"),
+        help="source directory for notebooks",
     )
     parser.add_argument(
-        "dest_root", type=pathlib.Path, help="path to parent of generated package"
+        "-p",
+        "--package",
+        type=pathlib.Path,
+        default=project_config.get("package_path"),
+        help="destination path generated package",
+    )
+    parser.add_argument(
+        "-i",
+        "--ignore",
+        help="glob pattern to ignore during recursion",
+        action="append",
     )
     return parser
 
 
 def run(args):
-    package.build_package(args.source, args.dest_root)
+    if args.source is None:
+        raise ValueError(f"Invalid source path {args.source!r}")
+    if args.package is None:
+        raise ValueError(f"Invalid package path {args.package!r}")
+
+    package.build_package(args.source, args.package, args.ignore)

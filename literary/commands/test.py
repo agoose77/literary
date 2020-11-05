@@ -1,39 +1,92 @@
-import argparse
 import logging
 import pathlib
-from concurrent.futures import ProcessPoolExecutor
+from concurrent import futures
 
-import nbclient
-import nbformat
+from .. import config
+from .. import testing
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_IGNORE_PATTERNS = (".ipynb_checkpoints",)
 
-def run_notebook(path: pathlib.Path, cell_timeout: int = 120):
-    logger.debug(f"Executing {path}")
-    nb = nbformat.read(path, as_version=nbformat.NO_CONVERT)
-    client = nbclient.NotebookClient(
-        nb, timeout=cell_timeout, resources={"metadata": {"path": path.parent}}
-    )
-    client.execute()
-    logger.debug(f"Finished executing {path}")
+
+def _patch_nbclient_exceptions():
+    """Shim to patch nbclient exception pickling"""
+    import nbclient.exceptions as exc
+
+    # Fix https://github.com/jupyter/nbclient/issues/121
+    def reduce_CellExecutionError(self):
+        return type(self), (self.traceback, self.ename, self.evalue)
+
+    exc.CellExecutionError.__reduce__ = reduce_CellExecutionError
+
+
+def find_notebooks(path, ignore_patterns=None):
+    """Find notebooks given by a particular path.
+
+    If the path is a directory, yield from the result of calling find_notebooks` with
+    the directory path.
+    If the path is a notebook file path, yield the path directly
+
+    :param path: path to a file or directory
+    :param ignore_patterns: set of patterns to ignore during recursion
+    :return:
+    """
+    if ignore_patterns is None:
+        ignore_patterns = DEFAULT_IGNORE_PATTERNS
+
+    if path.is_dir():
+        for p in path.iterdir():
+            # Ignore certain files and directories e.g. .ipynb_checkpoints
+            if any(path.match(p) for p in ignore_patterns):
+                continue
+
+            yield from find_notebooks(p, ignore_patterns)
+
+    elif path.match("*.ipynb"):
+        yield path
 
 
 def configure(subparsers):
+    project_config = config.load_default_config(config.find_project_path())
+
     parser = subparsers.add_parser(
         "test",
         description="Test literary notebooks in parallel",
     )
     parser.add_argument(
-        "source", type=pathlib.Path, help="source directory for notebooks"
+        "-s",
+        "--source",
+        type=pathlib.Path,
+        default=project_config.get("source_path"),
+        help="path to notebook or directory (recursive)",
     )
     parser.add_argument(
-        "-j", "--jobs", default=None, type=int, help="number of " "parallel jobs to run"
+        "-j",
+        "--jobs",
+        default=project_config.get("test_processes"),
+        type=int,
+        help="number of parallel jobs to run",
+    )
+    parser.add_argument(
+        "-i",
+        "--ignore",
+        help="glob pattern to ignore during recursion",
+        action="append",
     )
     return parser
 
 
 def run(args):
-    executor = ProcessPoolExecutor(max_workers=args.jobs)
-    executor.map(run_notebook, args.source.glob("*.ipynb"))
-    executor.shutdown()
+    if args.source is None:
+        raise ValueError(f"Invalid source path {args.source!r}")
+
+    with futures.ProcessPoolExecutor(
+        max_workers=args.jobs, initializer=_patch_nbclient_exceptions
+    ) as executor:
+        tasks = [
+            executor.submit(testing.run_notebook, p)
+            for p in find_notebooks(args.source, args.ignore)
+        ]
+        for task in futures.as_completed(tasks):
+            task.result()
