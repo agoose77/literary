@@ -1,0 +1,9 @@
+name: literary
+
+channels:
+  - conda-forge
+  
+dependencies:
+  - jupyterlab >=2,<3
+  - python >=3.7,<3.8
+  - poetry >= 1.1.1
