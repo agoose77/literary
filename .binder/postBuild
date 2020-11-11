@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 set -eux
 
-poetry install .
+poetry install
+pip install "jupyterlab==2.2.9"
