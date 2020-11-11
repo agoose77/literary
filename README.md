@@ -1,5 +1,12 @@
 # Literary
-[![PyPI version](https://badge.fury.io/py/literary.svg)](https://badge.fury.io/py/literary)  
+[![pypi-badge][]][pypi] [![binder-badge][]][binder]
+
+[binder]:
+  https://mybinder.org/v2/gh/agoose77/literary/master?urlpath=lab%2Ftree%2Findex.ipynb
+[binder-badge]: https://mybinder.org/badge_logo.svg
+[pypi-badge]: https://img.shields.io/pypi/v/literary
+[pypi]: https://pypi.org/project/literary
+
 This package is an exploration of the [literate programming](http://www.literateprogramming.com) idea [pioneered by
  Donald
 Knuth](https://www-cs-faculty.stanford.edu/~knuth/lp.html) and implemented in the
