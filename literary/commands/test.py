@@ -58,13 +58,14 @@ def configure(subparsers):
         "-s",
         "--source",
         type=pathlib.Path,
-        default=project_config.get("source_path"),
+        default=[project_config["source_path"], *project_config["test_paths"]],
+        action="append",
         help="path to notebook or directory (recursive)",
     )
     parser.add_argument(
         "-j",
         "--jobs",
-        default=project_config.get("test_processes"),
+        default=project_config["test_processes"],
         type=int,
         help="number of parallel jobs to run",
     )
@@ -81,12 +82,13 @@ def run(args):
     if args.source is None:
         raise ValueError(f"Invalid source path {args.source!r}")
 
+    paths = set(
+        p.resolve() for s in args.source for p in find_notebooks(s, args.ignore)
+    )
+
     with futures.ProcessPoolExecutor(
         max_workers=args.jobs, initializer=_patch_nbclient_exceptions
     ) as executor:
-        tasks = [
-            executor.submit(testing.run_notebook, p)
-            for p in find_notebooks(args.source, args.ignore)
-        ]
+        tasks = [executor.submit(testing.run_notebook, p) for p in paths]
         for task in futures.as_completed(tasks):
             task.result()

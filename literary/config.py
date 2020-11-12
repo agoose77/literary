@@ -55,13 +55,23 @@ def load_pyproject_config(path: pathlib.Path) -> Dict[str, Any]:
         for k, v in data.get("tool", {}).get("literary", {}).items()
     }
 
-    if "source" in config:
-        config["source"] = (project_path / config["source"]).resolve()
+    if (source_path := config.get("source_path")) is not None:
+        source_path = (project_path / source_path).resolve()
 
-    if "dest" in config:
-        config["dest"] = (project_path / config["dest"]).resolve()
+    if (package_path := config.get("package_path")) is not None:
+        package_path = (project_path / package_path).resolve()
 
-    return config
+    if test_paths := config.get("test_paths", []):
+        test_paths = [(project_path / p).resolve() for p in test_paths]
+
+    test_processes = config.get("test_processes")
+
+    return {
+        "source_path": source_path,
+        "package_path": package_path,
+        "test_paths": test_paths,
+        "test_processes": test_processes
+    }
 
 
 def load_default_config(project_path: pathlib.Path) -> Dict[str, Any]:
