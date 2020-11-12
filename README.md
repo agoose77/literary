@@ -2,7 +2,7 @@
 [![pypi-badge][]][pypi] [![binder-badge][]][binder]
 
 [binder]:
-  https://mybinder.org/v2/gh/agoose77/literary/HEAD?filepath=examples%2Fimports.ipynb
+  https://mybinder.org/v2/gh/agoose77/literary/HEAD?urlpath=lab%2Ftree%2Fexamples%2Fimports.ipynb
 [binder-badge]: https://mybinder.org/badge_logo.svg
 [pypi-badge]: https://img.shields.io/pypi/v/literary
 [pypi]: https://pypi.org/project/literary
