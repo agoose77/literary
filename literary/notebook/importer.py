@@ -92,7 +92,4 @@ def install_hook(package_root_path: Union[AnyStr, os.PathLike]):
     """
     # Make notebook packages importable by adding package root path to sys.path
     sys.path.append(str(package_root_path))
-    # To avoid bad practice, prevent cwd being used for lookups, both explicitly
-    # or from empty strings
-    sys.path = [p for p in sys.path if pathlib.Path(p).absolute() != pathlib.Path.cwd()]
     sys.meta_path.insert(0, NotebookFinder(sys.path))
