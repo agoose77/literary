@@ -46,7 +46,12 @@ class LiteraryPythonExporter(exporters.PythonExporter):
 
         self._init_transformers()
 
-    transformers = List(["literary.transformers.PatchTransformer"]).tag(config=True)
+    transformers = List(
+        [
+            "literary.transformers.PatchTransformer",
+            "literary.transformers.IPythonTransformer",
+        ]
+    ).tag(config=True)
 
     def _init_transformers(self):
         self._transformers = []

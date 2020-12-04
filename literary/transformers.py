@@ -6,12 +6,41 @@ import traitlets.config
 
 logger = logging.getLogger(__name__)
 
-
 T = TypeVar("T")
 
 
+class IPythonTransformer(traitlets.config.Configurable):
+    """Node transformer which operates upon ast.Module nodes to check for IPython
+    statements.
+    """
+    error_if_ipython = traitlets.Bool(default_value=True).tag(config=True)
+
+    def visit(self, node: ast.Module) -> ast.Module:
+        """Transform a Python module AST node
+
+        :param node: ast.Module object
+        :return: ast.Module object
+        """
+        for descendant in ast.walk(node):
+            if not isinstance(descendant, ast.Call):
+                continue
+
+            if not isinstance(descendant.func, ast.Name):
+                continue
+
+            if descendant.func.id == "get_ipython":
+                msg = "`get_ipython` cannot be transpiled to pure-Python. " \
+                      "Check for magics in exported code cells"
+                if self.error_if_ipython:
+                    raise ValueError(msg)
+                else:
+                    logger.warning(msg)
+
+        return node
+
+
 class PatchTransformer(traitlets.config.Configurable):
-    """Node transformer which operates upon ast.Module nodes to handle patches"""
+    """Node transformer which operates upon ast.Module nodes to handle patches."""
 
     patch_decorator_id = traitlets.Unicode("patch").tag(config=True)
 
@@ -28,7 +57,7 @@ class PatchTransformer(traitlets.config.Configurable):
         )
 
     def _apply_patches_to_node(self, decorated: Any, classes: Dict[str, Any]):
-        """Append patch functions to body of patched class
+        """Append patch functions to body of patched class.
 
         :param decorated: decorated function node
         :param classes: mapping of name to class node
@@ -59,7 +88,7 @@ class PatchTransformer(traitlets.config.Configurable):
         return True
 
     def _transform_module_body(self, nodes: Iterable[T]) -> Iterable[T]:
-        """Transform the nodes of an ast.Module to handle patches
+        """Transform the nodes of an ast.Module to handle patches.
 
         :param nodes: iterable of ast nodes
         :return:
@@ -78,7 +107,7 @@ class PatchTransformer(traitlets.config.Configurable):
             yield child
 
     def visit(self, node: ast.Module) -> ast.Module:
-        """Transform a Python module AST node
+        """Transform a Python module AST node.
 
         :param node: ast.Module object
         :return: ast.Module object
