@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "literary"
-version = "1.3.1"
+version = "1.3.2"
 description = "Literate package development with Jupyter"
 readme = "README.md"
 repository = "https://github.com/agoose77/literary"
