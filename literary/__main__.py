@@ -5,7 +5,7 @@ from .commands import build, test
 
 def run(argv=None):
     parser = argparse.ArgumentParser(description="Top-level literary executable")
-    subparsers = parser.add_subparsers(title="command")
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
     for command in build, test:
         sub_parser = command.configure(subparsers)
