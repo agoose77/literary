@@ -13,8 +13,23 @@ def patch(cls: Type) -> Callable[[T], T]:
     :return:
     """
 
+    def get_name(func):
+        # Fix #4 to support patching (property) descriptors
+        try:
+            return func.__name__
+        except AttributeError:
+            # Support various descriptors
+            for attr in "fget", "fset", "fdel", "__func__":
+                try:
+                    return getattr(func, attr).__name__
+                except AttributeError:
+                    continue
+
+            # Raise original exception
+            raise
+
     def _notebook_patch_impl(func):
-        setattr(cls, func.__name__, func)
+        setattr(cls, get_name(func), func)
         return func
 
     return _notebook_patch_impl
