@@ -42,6 +42,12 @@ notebooks
     * Loosely, the plan is to use existing notebook-book tooling to re-use the
      existing Jupyter ecosystem
 
+
+## Differences with Knuth
+Knuth introduced the `tangle` and `weave` programs to produce separate documentation and source code for compilation. 
+Literary differs in treating the notebook as the "ground truth" for documentation + testing, and generating smaller source code for packaging.
+
+
 ## Design
 The plan for this package is:
 1. Notebooks will be written inside `<PACKAGE_NAME>/` in literary project's root directory
