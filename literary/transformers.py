@@ -71,6 +71,11 @@ class PatchTransformer(traitlets.config.Configurable):
 
         for node in decorated.decorator_list:
             if self._is_patch_decorator(node):
+                if other_decorators:
+                    raise ValueError(
+                        "Applying decorators to a patched function is not "
+                        "safe at runtime, and is hence prohibited."
+                    )
                 patch_decorators.append(node)
             else:
                 other_decorators.append(node)
