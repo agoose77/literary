@@ -19,6 +19,7 @@ toml = "^0.10.2"
 ipython = "^7.19.0"
 
 [tool.poetry.dev-dependencies]
+black = "^20.8b1"
 
 [tool.poetry.scripts]
 literary = 'literary.__main__:run'

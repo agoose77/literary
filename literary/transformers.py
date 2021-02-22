@@ -13,6 +13,7 @@ class IPythonTransformer(traitlets.config.Configurable):
     """Node transformer which operates upon ast.Module nodes to check for IPython
     statements.
     """
+
     error_if_ipython = traitlets.Bool(default_value=True).tag(config=True)
 
     def visit(self, node: ast.Module) -> ast.Module:
@@ -29,8 +30,10 @@ class IPythonTransformer(traitlets.config.Configurable):
                 continue
 
             if descendant.func.id == "get_ipython":
-                msg = "`get_ipython` cannot be transpiled to pure-Python. " \
-                      "Check for magics in exported code cells"
+                msg = (
+                    "`get_ipython` cannot be transpiled to pure-Python. "
+                    "Check for magics in exported code cells"
+                )
                 if self.error_if_ipython:
                     raise ValueError(msg)
                 else:

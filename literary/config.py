@@ -70,7 +70,7 @@ def load_pyproject_config(path: pathlib.Path) -> Dict[str, Any]:
         "source_path": source_path,
         "package_path": package_path,
         "test_paths": test_paths,
-        "test_processes": test_processes
+        "test_processes": test_processes,
     }
 
 
