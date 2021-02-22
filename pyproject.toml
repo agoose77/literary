@@ -13,13 +13,13 @@ nbconvert = "^6.0.7"
 nbclient = "^0.5.1"
 nbformat = { version = "^5.0.8", extras = ["fast"] }
 traitlets = "^5.0.5"
-astunparse = "^1.6.3"
 Jinja2 = "^2.11.2"
 toml = "^0.10.2"
 ipython = "^7.19.0"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
+jupyterlab = "^3.0.8"
 
 [tool.poetry.scripts]
 literary = 'literary.__main__:run'
