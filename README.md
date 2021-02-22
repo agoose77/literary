@@ -1,5 +1,7 @@
-# Literary
-[![pypi-badge][]][pypi] [![binder-badge][]][binder]
+![Literary logo with an orange cursive uppercase L inside black square brackets](assets/logo.png)
+
+# Literary 
+[![pypi-badge][]][pypi] [![binder-badge][]][binder]  
 
 [binder]:
   https://mybinder.org/v2/gh/agoose77/literary/HEAD?urlpath=lab%2Ftree%2Fexamples
@@ -54,7 +56,7 @@ The plan for this package is:
 2. Notebooks will respect relative imports and other pure-Python features to minimise the differences between the generated packages and the notebooks
 3. A pure-python generated `lib/<PACKAGE_NAME>/` directory will be built before Poetry builds the final project.   
   E.g. 
-    ```ini
+    ```toml
     [tool.poetry]
     # ...
     packages = [
