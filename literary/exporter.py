@@ -1,7 +1,7 @@
 import ast
+import sys
 import logging
 
-import astunparse
 import traitlets.config
 from jinja2 import DictLoader
 from nbconvert import exporters
@@ -12,20 +12,29 @@ from .utils import escape_triple_quotes
 
 logger = logging.getLogger(__name__)
 
+# Backwards compatibility
+if sys.version_info < (3, 9, 0):
+    import astunparse
+    import astunparse.unparser
 
-class ASTUnparser(astunparse.Unparser):
-    """AST unparser with additional preference for triple-quoted multi-line strings"""
+    class ASTUnparser(astunparse.unparser.Unparser):
+        """AST unparser with additional preference for triple-quoted multi-line strings"""
 
-    def _Constant(self, tree):
-        if isinstance(tree.value, str) and "\n" in tree.value:
-            self.write(f'"""{escape_triple_quotes(tree.value)}"""')
-            return
+        def _Constant(self, tree):
+            if isinstance(tree.value, str) and "\n" in tree.value:
+                self.write(f'"""{escape_triple_quotes(tree.value)}"""')
+                return
 
-        super()._Constant(tree)
+            super()._Constant(tree)
 
+    # Monkey patch to ensure correctness
+    astunparse.Unparser = ASTUnparser
+    astunparse.unparser.Unparser = ASTUnparser
 
-# Monkey patch to ensure correctness
-astunparse.Unparser = ASTUnparser
+    from astunparse import unparse_ast
+
+else:
+    from ast import unparse as unparse_ast
 
 
 class LiteraryPythonExporter(exporters.PythonExporter):
@@ -119,9 +128,14 @@ class LiteraryPythonExporter(exporters.PythonExporter):
         body, resources = super().from_notebook_node(nb, resources, **kwargs)
         node = ast.parse(body)
 
-        # Support ast.NodeTransformer and custom transformers using
-        # `visit()` API
-        for transformer in self._transformers:
-            node = transformer.visit(node)
+        try:
+            # Support ast.NodeTransformer and custom transformers using
+            # `visit()` API
+            for transformer in self._transformers:
+                node = transformer.visit(node)
+        except Exception as err:
+            raise RuntimeError(
+                f"An error occurred during AST transforming: {body}"
+            ) from err
 
-        return astunparse.unparse(node), resources
+        return unparse_ast(node), resources
