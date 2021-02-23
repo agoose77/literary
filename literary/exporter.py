@@ -31,7 +31,7 @@ if sys.version_info < (3, 9, 0):
     astunparse.Unparser = ASTUnparser
     astunparse.unparser.Unparser = ASTUnparser
 
-    from astunparse import unparse_ast
+    from astunparse import unparse as unparse_ast
 
 else:
     from ast import unparse as unparse_ast

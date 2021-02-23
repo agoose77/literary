@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "literary"
-version = "1.4.0"
+version = "1.4.1"
 description = "Literate package development with Jupyter"
 readme = "README.md"
 repository = "https://github.com/agoose77/literary"
@@ -9,6 +9,7 @@ keywords = ["literate-programming", "notebook", "jupyter", "development"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+astunparse = { version = "^1.6.3",  python = "<3.9" }
 nbconvert = "^6.0.7"
 nbclient = "^0.5.1"
 nbformat = { version = "^5.0.8", extras = ["fast"] }
@@ -21,6 +22,7 @@ ipython = "^7.19.0"
 black = "^20.8b1"
 jupyterlab = "^3.0.8"
 pytest = "^6.2.2"
+tox = "^3.22.0"
 
 [tool.poetry.scripts]
 literary = 'literary.__main__:run'
