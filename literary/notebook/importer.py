@@ -1,5 +1,6 @@
 import importlib.machinery
 import linecache
+import traceback
 import os
 import pathlib
 import sys
@@ -81,15 +82,24 @@ def determine_package_name(path: pathlib.Path, package_root_path: pathlib.Path) 
     return ".".join(relative_path.parts)
 
 
-def install_hook(package_root_path: Union[AnyStr, os.PathLike]):
+def install_hook(
+    package_root_path: Union[AnyStr, os.PathLike], set_except_hook: bool = True
+):
     """Install notebook import hook
 
     Don't allow the user to specify a custom search path, because we also need this to
     interoperate with the default Python module importers which use sys.path
 
     :param package_root_path: root path containing notebook package directory
+    :param set_except_hook: overwrite `sys.excepthook` to correctly display tracebacks
+    inside notebooks
     :return:
     """
     # Make notebook packages importable by adding package root path to sys.path
     sys.path.append(str(package_root_path))
     sys.meta_path.insert(0, NotebookFinder(sys.path))
+
+    # Python's C-level traceback reporting doesn't call `linecache`, and so retrieves
+    # the underlying notebook source instead of the generated Python code
+    if set_except_hook:
+        sys.excepthook = traceback.print_exception
