@@ -17,6 +17,7 @@ if sys.version_info < (3, 9, 0):
     import astunparse
     import astunparse.unparser
 
+
     class ASTUnparser(astunparse.unparser.Unparser):
         """AST unparser with additional preference for triple-quoted multi-line strings"""
 
@@ -26,6 +27,7 @@ if sys.version_info < (3, 9, 0):
                 return
 
             super()._Constant(tree)
+
 
     # Monkey patch to ensure correctness
     astunparse.Unparser = ASTUnparser
@@ -56,7 +58,7 @@ class LiteraryPythonExporter(exporters.PythonExporter):
         self._init_transformers()
 
     transformers = List(
-        [
+        default_value=[
             "literary.transformers.PatchTransformer",
             "literary.transformers.IPythonTransformer",
         ]
