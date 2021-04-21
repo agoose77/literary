@@ -9,8 +9,7 @@ def escape_triple_quotes(string: str, single_quote: Literal["'", '"'] = '"') -> 
     :return: escaped string
     """
     assert len(single_quote) == 1
-    quote = "".join([single_quote] * 3)
-
+    quote = single_quote * 3
     escaped_single_quote = rf"\{single_quote}"
-    escaped_quote = "".join([escaped_single_quote] * 3)
+    escaped_quote = escaped_single_quote * 3
     return string.replace(quote, escaped_quote)
