@@ -7,7 +7,7 @@ from jinja2 import DictLoader
 from nbconvert import exporters
 from traitlets import default, import_item, List
 
-from .preprocessor import LiteraryPythonPreprocessor
+from .preprocessor import LiteraryTagAllowListPreprocessor
 from .utils import escape_triple_quotes
 
 logger = logging.getLogger(__name__)
@@ -37,6 +37,27 @@ if sys.version_info < (3, 9, 0):
 
 else:
     from ast import unparse as unparse_ast
+
+
+# Jinja template for Python modules
+PYTHON_MODULE_TEMPLATE = '''{%- extends 'python/index.py.j2' -%}
+
+{% block header %}
+"""
+{%- for cell in nb.cells -%}
+{%- if "docstring" in cell.metadata.tags -%}
+{{ cell.source | escape_triple_quotes }}
+{% endif -%}
+{%- endfor -%}
+"""
+{% endblock header %}
+
+{# Don't render docstring twice #}
+{%- block any_cell scoped -%}
+{%- if "docstring" not in cell.metadata.tags -%}
+{{ super() }}
+{%- endif -%}
+{%- endblock any_cell -%}'''
 
 
 class LiteraryPythonExporter(exporters.PythonExporter):
@@ -80,33 +101,14 @@ class LiteraryPythonExporter(exporters.PythonExporter):
     def _extra_loaders_default(self):
         loader = DictLoader(
             {
-                "literary": '''
-{%- extends 'python/index.py.j2' -%}
-
-{% block header %}
-"""
-{%- for cell in nb.cells -%}
-{%- if "docstring" in cell.metadata.tags -%}
-{{ cell.source | escape_triple_quotes }}
-{% endif -%}
-{%- endfor -%}
-"""
-{% endblock header %}
-
-{%- block any_cell scoped -%}
-{%- if "export" in cell.metadata.tags -%}
-{{ super() }}
-{%- endif -%}
-{%- endblock any_cell -%}
-
-                             '''
+                "literary": PYTHON_MODULE_TEMPLATE
             }
         )
         return [loader]
 
     @default("default_preprocessors")
     def _default_preprocessors_default(self):
-        return [LiteraryPythonPreprocessor]
+        return [LiteraryTagAllowListPreprocessor]
 
     @default("exclude_input_prompt")
     def _exclude_input_prompt_default(self):

@@ -27,18 +27,18 @@ class NotebookLoader(importlib.machinery.SourcelessFileLoader):
             path,
         )
 
-    def get_transpiled_source(self, path: str):
-        nb = nbformat.read(path, as_version=nbformat.NO_CONVERT)
-        exporter = LiteraryPythonExporter(config=self.config)
-        body, resources = exporter.from_notebook_node(nb)
-        return body
-
     def get_code(self, fullname: str):
         path = self.get_filename(fullname)
         body = self.get_transpiled_source(path)
         # Ensure that generated source is available for tracebacks
         self._update_linecache(path, body)
         return compile(body, path, 'exec')
+
+    def get_transpiled_source(self, path: str):
+        nb = nbformat.read(path, as_version=nbformat.NO_CONVERT)
+        exporter = LiteraryPythonExporter(config=self.config)
+        body, resources = exporter.from_notebook_node(nb)
+        return body
 
 
 class NotebookFinder(importlib.abc.MetaPathFinder):

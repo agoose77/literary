@@ -2,18 +2,22 @@ import traitlets
 from nbconvert import preprocessors
 
 
-class LiteraryPythonPreprocessor(preprocessors.Preprocessor):
-    default_include_tags = traitlets.Set(
+class LiteraryTagAllowListPreprocessor(preprocessors.Preprocessor):
+    allow_cell_tags = traitlets.Set(
         traitlets.Unicode(), default_value={"export", "docstring"}
     )
 
-    def preprocess(self, nb, resources):
-        nb.cells = [*self.iter_permitted_cells(nb, resources)]
+    def check_cell_conditions(self, cell, resources: dict, index: int) -> bool:
+        tags = cell.metadata.get("tags", [])
+        return bool(self.allow_cell_tags.intersection(tags))
+
+    def preprocess(self, nb, resources: dict):
+        nb.cells = [
+            self.preprocess_cell(cell, resources, i)[0]
+            for i, cell in enumerate(nb.cells)
+            if self.check_cell_conditions(cell, resources, i)
+        ]
         return nb, resources
 
-    def iter_permitted_cells(self, nb, resources):
-        for i, cell in enumerate(nb.cells):
-            tags = set(cell.metadata.get("tags", []))
-
-            if self.default_include_tags & tags:
-                yield cell
+    def preprocess_cell(self, cell, resources: dict, index: int):
+        return cell, resources
