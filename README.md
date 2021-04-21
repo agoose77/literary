@@ -1,4 +1,4 @@
-![Literary logo with an orange cursive uppercase L inside black square brackets](assets/logo.png)
+![Literary logo with an orange cursive uppercase L inside black square brackets](https://raw.githubusercontent.com/agoose77/literary/master/assets/logo.png)
 
 # Literary 
 [![pypi-badge][]][pypi] [![binder-badge][]][binder]  
