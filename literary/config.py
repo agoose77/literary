@@ -79,13 +79,17 @@ def load_setup_cfg_config(path: pathlib.Path) -> Dict[str, Any]:
 def load_config_from_dict(
     project_path: pathlib.Path, config: Dict[str, Any]
 ) -> Dict[str, Any]:
-    if (source_path := config.get("source_path")) is not None:
+
+    source_path = config.get("source_path")
+    if source_path is not None:
         source_path = (project_path / source_path).resolve()
 
-    if (package_path := config.get("package_path")) is not None:
+    package_path = config.get("package_path")
+    if package_path is not None:
         package_path = (project_path / package_path).resolve()
 
-    if test_paths := config.get("test_paths", []):
+    test_paths = config.get("test_paths", [])
+    if test_paths:
         test_paths = [(project_path / p).resolve() for p in test_paths]
 
     test_processes = config.get("test_processes")
