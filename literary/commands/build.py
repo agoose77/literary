@@ -15,14 +15,14 @@ def configure(subparsers):
         "-s",
         "--source",
         type=pathlib.Path,
-        default=project_config["source_path"],
+        default=project_config.get("source_path"),
         help="source directory for notebooks",
     )
     parser.add_argument(
         "-p",
         "--package",
         type=pathlib.Path,
-        default=project_config["package_path"],
+        default=project_config.get("package_path"),
         help="destination path generated package",
     )
     parser.add_argument(

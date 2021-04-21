@@ -1,9 +1,8 @@
 import ast
-import sys
 import logging
+import sys
 
 import traitlets.config
-from jinja2 import DictLoader
 from nbconvert import exporters
 from traitlets import default, import_item, List
 
@@ -17,7 +16,6 @@ if sys.version_info < (3, 9, 0):
     import astunparse
     import astunparse.unparser
 
-
     class ASTUnparser(astunparse.unparser.Unparser):
         """AST unparser with additional preference for triple-quoted multi-line strings"""
 
@@ -28,7 +26,6 @@ if sys.version_info < (3, 9, 0):
 
             super()._Constant(tree)
 
-
     # Monkey patch to ensure correctness
     astunparse.Unparser = ASTUnparser
     astunparse.unparser.Unparser = ASTUnparser
@@ -37,27 +34,6 @@ if sys.version_info < (3, 9, 0):
 
 else:
     from ast import unparse as unparse_ast
-
-
-# Jinja template for Python modules
-PYTHON_MODULE_TEMPLATE = '''{%- extends 'python/index.py.j2' -%}
-
-{% block header %}
-"""
-{%- for cell in nb.cells -%}
-{%- if "docstring" in cell.metadata.tags -%}
-{{ cell.source | escape_triple_quotes }}
-{% endif -%}
-{%- endfor -%}
-"""
-{% endblock header %}
-
-{# Don't render docstring twice #}
-{%- block any_cell scoped -%}
-{%- if "docstring" not in cell.metadata.tags -%}
-{{ super() }}
-{%- endif -%}
-{%- endblock any_cell -%}'''
 
 
 class LiteraryPythonExporter(exporters.PythonExporter):
@@ -93,18 +69,9 @@ class LiteraryPythonExporter(exporters.PythonExporter):
                 value = import_item(value)
             self._transformers.append(value())
 
-    @default("template_file")
-    def _template_file_default(self):
-        return "literary"
-
-    @default("extra_loaders")
-    def _extra_loaders_default(self):
-        loader = DictLoader(
-            {
-                "literary": PYTHON_MODULE_TEMPLATE
-            }
-        )
-        return [loader]
+    @default('template_name')
+    def _template_name_default(self):
+        return 'literary'
 
     @default("default_preprocessors")
     def _default_preprocessors_default(self):
@@ -118,7 +85,7 @@ class LiteraryPythonExporter(exporters.PythonExporter):
     def default_config(self):
         c = traitlets.config.Config(
             {
-                "LiteraryPythonPreprocessor": {"enabled": True},
+                "LiteraryTagAllowListPreprocessor": {"enabled": True},
             }
         )
         c.merge(super().default_config)
