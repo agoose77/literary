@@ -1,4 +1,4 @@
-from typing import Literal
+from typing_extensions import Literal
 
 
 def escape_triple_quotes(string: str, single_quote: Literal["'", '"'] = '"') -> str:
