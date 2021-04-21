@@ -5,5 +5,4 @@ channels:
   
 dependencies:
   - python = 3.9
-  - poetry >= 1.1.4
   - jupyterlab >=3,<4.0.0a0

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -eux
 
-export POETRY_VIRTUALENVS_CREATE=0
-poetry install --no-dev
+pip install .
