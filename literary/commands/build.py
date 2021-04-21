@@ -1,43 +1,39 @@
 import pathlib
 
-from .. import package
-from .. import config
+from jupyter_core.application import JupyterApp
+from traitlets import default, Unicode, List
+
+from ..config import CONFIG_FILE_NAME
+from ..package import build_package
 
 
-def configure(subparsers):
-    project_config = config.load_default_config(config.find_project_path())
+class LiteraryBuildApp(JupyterApp):
+    name = "literary build"
+    description = "Build a pure-Python package from a set of Jupyter notebooks"
+    aliases = {
+        **JupyterApp.aliases,
+        "source": "LiteraryBuildApp.source",
+        "package": "LiteraryBuildApp.package",
+        "ignore": "LiteraryBuildApp.ignore",
+    }
 
-    parser = subparsers.add_parser(
-        "build",
-        description="Build a pure-Python package from a set of Jupyter notebooks",
+    source = Unicode(help="source directory for notebooks").tag(config=True)
+    package = Unicode(help="destination path generated package").tag(config=True)
+    ignore = List(help="glob pattern to ignore during recursion", trait=Unicode()).tag(
+        config=True
     )
-    parser.add_argument(
-        "-s",
-        "--source",
-        type=pathlib.Path,
-        default=project_config.get("source_path"),
-        help="source directory for notebooks",
-    )
-    parser.add_argument(
-        "-p",
-        "--package",
-        type=pathlib.Path,
-        default=project_config.get("package_path"),
-        help="destination path generated package",
-    )
-    parser.add_argument(
-        "-i",
-        "--ignore",
-        help="glob pattern to ignore during recursion",
-        action="append",
-    )
-    return parser
 
+    @default("config_file_name")
+    def _config_file_name_default(self):
+        return CONFIG_FILE_NAME
 
-def run(args):
-    if args.source is None:
-        raise ValueError(f"Invalid source path {args.source!r}")
-    if args.package is None:
-        raise ValueError(f"Invalid package path {args.package!r}")
+    def start(self):
+        if not self.source:
+            raise ValueError(f"Missing source path")
 
-    package.build_package(args.source, args.package, args.ignore)
+        source = pathlib.Path(self.source)
+        if not self.package:
+            raise ValueError(f"Missing package path")
+        package = pathlib.Path(self.package)
+
+        build_package(source, package, self.ignore)

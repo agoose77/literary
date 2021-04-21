@@ -1,19 +1,18 @@
 import importlib.machinery
 import linecache
-import traceback
 import os
 import pathlib
 import sys
+import traceback
 from typing import AnyStr, Union
 
 import nbformat
-import traitlets.config
 
+from ..config import load_config
 from ..exporter import LiteraryPythonExporter
 
 
 class NotebookLoader(importlib.machinery.SourcelessFileLoader):
-
     def __init__(self, fullname: str, path: str, config):
         super().__init__(fullname, path)
 
@@ -32,7 +31,7 @@ class NotebookLoader(importlib.machinery.SourcelessFileLoader):
         body = self.get_transpiled_source(path)
         # Ensure that generated source is available for tracebacks
         self._update_linecache(path, body)
-        return compile(body, path, 'exec')
+        return compile(body, path, "exec")
 
     def get_transpiled_source(self, path: str):
         nb = nbformat.read(path, as_version=nbformat.NO_CONVERT)
@@ -46,8 +45,9 @@ class NotebookFinder(importlib.abc.MetaPathFinder):
         self._path = path
         self._config = config
 
-    def _load_package_spec(self, path: pathlib.Path,
-                           name: str) -> importlib.machinery.ModuleSpec:
+    def _load_package_spec(
+        self, path: pathlib.Path, name: str
+    ) -> importlib.machinery.ModuleSpec:
         spec = importlib.machinery.ModuleSpec(
             name,
             NotebookLoader(name, str(path), self._config),
@@ -58,8 +58,9 @@ class NotebookFinder(importlib.abc.MetaPathFinder):
         spec.has_location = True
         return spec
 
-    def _load_module_spec(self, path: pathlib.Path,
-                          name: str) -> importlib.machinery.ModuleSpec:
+    def _load_module_spec(
+        self, path: pathlib.Path, name: str
+    ) -> importlib.machinery.ModuleSpec:
         spec = importlib.machinery.ModuleSpec(
             name, NotebookLoader(name, str(path), self._config), origin=str(path)
         )
@@ -96,7 +97,7 @@ def determine_package_name(path: pathlib.Path, package_root_path: pathlib.Path) 
 
 
 def install_hook(
-        package_root_path: Union[AnyStr, os.PathLike], set_except_hook: bool = True
+    package_root_path: Union[AnyStr, os.PathLike], set_except_hook: bool = True
 ):
     """Install notebook import hook
 
@@ -110,7 +111,9 @@ def install_hook(
     """
     # Make notebook packages importable by adding package root path to sys.path
     sys.path.append(str(package_root_path))
-    sys.meta_path.insert(0, NotebookFinder(sys.path, config=traitlets.config.Config()))
+
+    config = load_config(package_root_path)
+    sys.meta_path.insert(0, NotebookFinder(sys.path, config=config))
 
     # Python's C-level traceback reporting doesn't call `linecache`, and so retrieves
     # the underlying notebook source instead of the generated Python code

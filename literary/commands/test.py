@@ -2,8 +2,11 @@ import logging
 import pathlib
 from concurrent import futures
 
-from .. import config
+from jupyter_core.application import JupyterApp
+from traitlets import default, Unicode, List, Int
+
 from .. import testing
+from ..config import CONFIG_FILE_NAME
 
 logger = logging.getLogger(__name__)
 
@@ -47,48 +50,40 @@ def find_notebooks(path, ignore_patterns=None):
         yield path
 
 
-def configure(subparsers):
-    project_config = config.load_default_config(config.find_project_path())
+class LiteraryTestApp(JupyterApp):
+    name = "literary test"
+    description = "Test literary notebooks in parallel"
+    aliases = {
+        **JupyterApp.aliases,
+        "source": "LiteraryTestApp.source",
+        "jobs": "LiteraryTestApp.jobs",
+        "ignore": "LiteraryTestApp.ignore",
+    }
 
-    parser = subparsers.add_parser(
-        "test",
-        description="Test literary notebooks in parallel",
+    source = List(trait=Unicode(help="source directory or notebooks to run")).tag(
+        config=True
     )
-    parser.add_argument(
-        "-s",
-        "--source",
-        type=pathlib.Path,
-        default=[
-            project_config.get("source_path"),
-            *project_config.get("test_paths", []),
-        ],
-        action="append",
-        help="path to notebook or directory (recursive)",
-    )
-    parser.add_argument(
-        "-j",
-        "--jobs",
-        default=project_config.get("test_processes"),
-        type=int,
-        help="number of parallel jobs to run",
-    )
-    parser.add_argument(
-        "-i",
-        "--ignore",
-        help="glob pattern to ignore during recursion",
-        action="append",
-    )
-    return parser
-
-
-def run(args):
-    paths = set(
-        p.resolve() for s in args.source if s for p in find_notebooks(s, args.ignore)
+    jobs = Int(
+        allow_none=True, default_value=None, help="number of parallel jobs to run"
+    ).tag(config=True)
+    ignore = List(help="glob pattern to ignore during recursion", trait=Unicode()).tag(
+        config=True
     )
 
-    with futures.ProcessPoolExecutor(
-        max_workers=args.jobs, initializer=_patch_nbclient_exceptions
-    ) as executor:
-        tasks = [executor.submit(testing.run_notebook, p) for p in paths]
-        for task in futures.as_completed(tasks):
-            task.result()
+    @default("config_file_name")
+    def _config_file_name_default(self):
+        return CONFIG_FILE_NAME
+
+    def start(self):
+        if not self.source:
+            raise ValueError(f"Missing source path(s)")
+
+        source = [pathlib.Path(s) for s in self.source]
+        paths = [p.resolve() for s in source for p in find_notebooks(s, self.ignore)]
+
+        with futures.ProcessPoolExecutor(
+            max_workers=self.jobs, initializer=_patch_nbclient_exceptions
+        ) as executor:
+            tasks = [executor.submit(testing.run_notebook, p) for p in paths]
+            for task in futures.as_completed(tasks):
+                task.result()
