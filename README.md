@@ -1,13 +1,15 @@
 ![Literary logo with an orange cursive uppercase L inside black square brackets](https://raw.githubusercontent.com/agoose77/literary/master/assets/logo.png)
 
 # Literary 
-[![pypi-badge][]][pypi] [![binder-badge][]][binder]  
+[![pypi-badge][]][pypi] [![binder-badge][]][binder] [![wiki-badge][]][wiki]
 
+[binder-badge]: https://mybinder.org/badge_logo.svg
 [binder]:
   https://mybinder.org/v2/gh/agoose77/literary/HEAD?urlpath=lab%2Ftree%2Fexamples
-[binder-badge]: https://mybinder.org/badge_logo.svg
 [pypi-badge]: https://img.shields.io/pypi/v/literary
 [pypi]: https://pypi.org/project/literary
+[wiki-badge]: https://img.shields.io/static/v1?label=wiki&message=read&color=green&logo=github
+[wiki]: https://github.com/agoose77/literary/wiki
 
 This package is an exploration of the [literate programming](http://www.literateprogramming.com) idea [pioneered by
  Donald
