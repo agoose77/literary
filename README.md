@@ -11,6 +11,9 @@
 [wiki-badge]: https://img.shields.io/static/v1?label=wiki&message=read&color=green&logo=github
 [wiki]: https://github.com/agoose77/literary/wiki
 
+## TL;DR
+Literary is a Python tool to make Jupyter (IPython) notebooks behave like pure-Python packages. This allows pure-Python packages to be generated from notebooks, and notebooks to be imported at runtime.
+
 This package is an exploration of the [literate programming](http://www.literateprogramming.com) idea [pioneered by
  Donald
 Knuth](https://www-cs-faculty.stanford.edu/~knuth/lp.html) and implemented in the
@@ -18,7 +21,7 @@ Knuth](https://www-cs-faculty.stanford.edu/~knuth/lp.html) and implemented in th
 mature and comprehensive tool, it is quite opinionated. This package is an
 investigation into what a smaller `nbdev` might look like.
 
-## Philosophy
+## Philosophy 📖
 1. **Low mental overhead**   
  Realistically, most Python programmers that wish to write packages need to have some
  familiarity with the Python package development model, including the conventional
@@ -52,7 +55,7 @@ Knuth introduced the `tangle` and `weave` programs to produce separate documenta
 Literary differs in treating the notebook as the "ground truth" for documentation + testing, and generating smaller source code for packaging.
 
 
-## Design
+## Design 🎨
 The plan for this package is:
 1. Notebooks will be written inside `<PACKAGE_NAME>/` in literary project's root directory
 2. Notebooks will respect relative imports and other pure-Python features to minimise the differences between the generated packages and the notebooks
