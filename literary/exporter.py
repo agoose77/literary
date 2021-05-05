@@ -69,9 +69,9 @@ class LiteraryPythonExporter(exporters.PythonExporter):
                 value = import_item(value)
             self._transformers.append(value())
 
-    @default('template_name')
+    @default("template_name")
     def _template_name_default(self):
-        return 'literary'
+        return "literary"
 
     @default("default_preprocessors")
     def _default_preprocessors_default(self):
