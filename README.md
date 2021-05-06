@@ -53,18 +53,3 @@ notebooks
 ## Differences with Knuth
 Knuth introduced the `tangle` and `weave` programs to produce separate documentation and source code for compilation. 
 Literary differs in treating the notebook as the "ground truth" for documentation + testing, and generating smaller source code for packaging.
-
-
-## Design 🎨
-The plan for this package is:
-1. Notebooks will be written inside `<PACKAGE_NAME>/` in literary project's root directory
-2. Notebooks will respect relative imports and other pure-Python features to minimise the differences between the generated packages and the notebooks
-3. A pure-python generated `lib/<PACKAGE_NAME>/` directory should be built before the packaging tool builds the final wheel/sdist. 
-   E.g. with Poetry:
-   ```toml
-   [tool.poetry]
-   # ...
-   packages = [
-     { include = "<PACKAGE_NAME>", from = "lib" },
-   ]
-   ```
