@@ -86,6 +86,6 @@ def build_package(
 
     if dest_path.exists():
         shutil.rmtree(dest_path)
-    dest_path.mkdir()
+    dest_path.mkdir(parents=True)
 
     build_package_component(nb_exporter, source_path, dest_path, ignore_patterns)
