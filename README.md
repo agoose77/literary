@@ -18,8 +18,8 @@ This package is an exploration of the [literate programming](http://www.literate
  Donald
 Knuth](https://www-cs-faculty.stanford.edu/~knuth/lp.html) and implemented in the
  [`nbdev` package](https://github.com/fastai/nbdev). Although `nbdev` looks to be a very
-mature and comprehensive tool, it is quite opinionated. This package is an
-investigation into what a smaller `nbdev` might look like.
+mature and comprehensive tool, it resembles a significant departure from conventional package development. Literary is an
+exploration of what a smaller `nbdev` might look like.
 
 ## Philosophy 📖
 1. **Low mental overhead**   
