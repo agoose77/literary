@@ -2,18 +2,8 @@
     "defaultTags": [
         "export",
         "docstring"
-    ],
-    "helperButtons": [
-    ],
-    "leftMenu": [
-
-    ],
-    "rightMenu": [
-        {
-            "cellType": "code",
-            "command": "jupyterlab_code_formatter:format",
-            "icon": "@jlab-enhanced/cell-toolbar:format",
-            "tooltip": "Format Cell"
-        }
-    ]
+    ],    
+    "helperButtons": null,
+    "leftMenu": null,
+    "rightMenu": null
 }
