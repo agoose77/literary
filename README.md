@@ -2,7 +2,7 @@
 
 # Literary 
 
-[![Join the chat at https://gitter.im/literary-nb/community](https://badges.gitter.im/literary-nb/community.svg)](https://gitter.im/literary-nb/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/literary-nb/community](https://badges.gitter.im/literary-nb/literary.svg)](https://gitter.im/literary-nb/literary?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![pypi-badge][]][pypi] [![binder-badge][]][binder] [![wiki-badge][]][wiki]
 
