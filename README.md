@@ -1,6 +1,9 @@
 ![Literary logo with an orange cursive uppercase L inside black square brackets](https://raw.githubusercontent.com/agoose77/literary/master/assets/logo.png)
 
 # Literary 
+
+[![Join the chat at https://gitter.im/literary-nb/literary](https://badges.gitter.im/literary-nb/literary.svg)](https://gitter.im/literary-nb/literary?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![pypi-badge][]][pypi] [![binder-badge][]][binder] [![wiki-badge][]][wiki]
 
 [binder-badge]: https://mybinder.org/badge_logo.svg
