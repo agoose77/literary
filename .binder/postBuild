@@ -4,5 +4,8 @@ set -eux
 pip install .
 
 # Copy configuration
-this_dir=$( dirname "${BASH_SOURCE[0]}" )
-cp -rT "${this_dir}/settings/.jupyter/" "$(jupyter --data-dir)"
+settings_dir="$(jupyter --data-dir)"
+mkdir --parents "${settings_dir}"
+
+this_dir="$( dirname "${BASH_SOURCE[0]}" )"
+cp -rT "${this_dir}/settings/.jupyter/" "${settings_dir}"
