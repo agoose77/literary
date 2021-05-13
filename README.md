@@ -2,10 +2,10 @@
 
 # Literary 
 
-[![Join the chat at https://gitter.im/literary-nb/community](https://badges.gitter.im/literary-nb/literary.svg)](https://gitter.im/literary-nb/literary?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![pypi-badge][]][pypi] [![binder-badge][]][binder] [![wiki-badge][]][wiki] [![gitter-badge][]][gitter]
 
-[![pypi-badge][]][pypi] [![binder-badge][]][binder] [![wiki-badge][]][wiki]
-
+[gitter-badge]: https://badges.gitter.im/literary-nb/literary.svg
+[gitter]: https://gitter.im/literary-nb/literary?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [binder-badge]: https://mybinder.org/badge_logo.svg
 [binder]:
   https://mybinder.org/v2/gh/agoose77/literary/HEAD?urlpath=lab%2Ftree%2Fexamples
