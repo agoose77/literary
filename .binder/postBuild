@@ -2,3 +2,6 @@
 set -eux
 
 pip install .
+
+# Copy configuration
+cp -rT settings/.jupyter/ $(jupyter --data-dir)
