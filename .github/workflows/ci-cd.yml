@@ -70,6 +70,7 @@ jobs:
         run: pytest
 
   publish:
+    name: Publish to PyPI
     needs: [dist, checks]
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'published'
