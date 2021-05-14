@@ -37,22 +37,3 @@ notebooks
  be generated from the notebooks, and it must use the conventional import model. For
  this reason, `literary` should only exist as a development dependency of
  the package.
-  
-
-## Differences with `nbdev`
-* Use of cell tags instead of comments or magics to dictate exports
-* Use of `nbconvert` machinery to build the pure-Python lib package
-* Use of import hooks to import other notebooks
-    * Maintains a similar programming model to conventional module
- development
-    * Reduces the need to modify notebook contents during conversion 
-* Minimal runtime overhead
-    * Features like `patch` are removed from the generated module (& imported notebook source) using AST transformations
-* Currently no documentation generation
-    * Loosely, the plan is to use existing notebook-book tooling to re-use the
-     existing Jupyter ecosystem
-
-
-## Differences with Knuth
-Knuth introduced the `tangle` and `weave` programs to produce separate documentation and source code for compilation. 
-Literary differs in treating the notebook as the "ground truth" for documentation + testing, and generating smaller source code for packaging.
