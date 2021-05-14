@@ -2,7 +2,7 @@
 
 # Literary 
 
-[![pypi-badge][]][pypi] [![binder-badge][]][binder] [![wiki-badge][]][wiki] [![gitter-badge][]][gitter]
+[![pypi-badge][]][pypi] [![binder-badge][]][binder] [![wiki-badge][]][wiki] [![gitter-badge][]][gitter] [![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/agoose77/literary/tree/master/src/) 
 
 [gitter-badge]: https://badges.gitter.im/literary-nb/literary.svg
 [gitter]: https://gitter.im/literary-nb/literary?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
