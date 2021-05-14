@@ -1,1 +1,7 @@
-pytest~=6.2.2
+literary~=1.8.2
+pytest
+jupyterlab
+black
+isort
+jupyterlab_code_formatter
+jlab-enhanced-cell-toolbar
