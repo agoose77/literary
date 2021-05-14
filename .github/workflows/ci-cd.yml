@@ -1,4 +1,4 @@
-name: Build package, run tests, and publish to PyPI
+name: CI & CD
 
 on:
   workflow_dispatch:
