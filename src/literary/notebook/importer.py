@@ -116,6 +116,9 @@ def _inject_notebook_loader(
     new_finder = _extend_file_finder(finder, (loader_factory, [".ipynb"]))
     path_hooks[i] = new_finder
 
+    # To fix cached path finders
+    sys.path_importer_cache.clear()
+
 
 def install_hook(
     package_root_path: Union[AnyStr, os.PathLike], set_except_hook: bool = True
