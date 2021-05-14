@@ -1,0 +1,9 @@
+{
+    "LiteraryBuildApp": {
+        "source": "src/literary",
+        "package": "lib/literary"
+    },
+    "LiteraryTestApp": {
+        "source": ["src/literary"]
+    }
+}
