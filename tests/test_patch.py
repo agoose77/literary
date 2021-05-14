@@ -3,7 +3,7 @@ import types
 
 import pytest
 
-from literary.transformers import PatchTransformer
+from literary.core.transformers import PatchTransformer
 
 PREAMBLE_SOURCE = """
 from literary.notebook.patch import patch
