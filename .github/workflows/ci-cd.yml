@@ -67,8 +67,7 @@ jobs:
         run: pip install pytest dist/*.whl
 
       - name: Test package
-        run: pytest
-
+        run: jupyter nbconvert examples/**/*.ipynb src/**/*.ipynb --to=notebook --execute --output-dir=$(mktemp -d)
   publish:
     name: Publish to PyPI
     needs: [dist, checks]
