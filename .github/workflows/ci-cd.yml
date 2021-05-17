@@ -64,7 +64,7 @@ jobs:
           path: dist
 
       - name: Install build + test dependencies
-        run: pip install pytest dist/*.whl
+        run: pip install pytest dist/*.whl nbconvert ipykernel
 
       - name: Test package
         run: jupyter nbconvert examples/**/*.ipynb src/**/*.ipynb --to=notebook --execute --output-dir=$(mktemp -d)
