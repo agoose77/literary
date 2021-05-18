@@ -1,9 +1,11 @@
 {
-    "LiteraryBuildApp": {
-        "source": "src/literary",
-        "package": "lib/literary"
+    "ProjectOperator": {
+        "packages_dir": "src"
+    },        
+    "PackageBuilder": {
+        "generated_dir": "lib"
     },
-    "LiteraryTestApp": {
-        "source": ["src/literary"]
+    "ProjectTester": {
+        "extra_sources": ["examples"]
     }
 }
