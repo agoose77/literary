@@ -1,4 +1,4 @@
-literary~=1.8.2
+literary~=2.0.1
 pytest
 jupyterlab
 black
