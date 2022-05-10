@@ -1,7 +1,0 @@
-literary~=2.0.1
-pytest
-jupyterlab
-black
-isort
-jupyterlab_code_formatter
-jlab-enhanced-cell-toolbar
