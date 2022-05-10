@@ -1,10 +1,4 @@
 {
-    "ProjectOperator": {
-        "packages_dir": "src"
-    },        
-    "PackageBuilder": {
-        "generated_dir": "lib"
-    },
     "ProjectTester": {
         "extra_sources": ["examples"]
     },
