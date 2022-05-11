@@ -339,18 +339,18 @@ dependencies = [
 
 [[package]]
 name = "literary"
-version = "3.0.2"
+version = "4.0.0a0"
 requires_python = ">=3.7"
 summary = "Literate package development with Jupyter"
 dependencies = [
-    "astunparse~=1.6; python_version < \"3.9\"",
-    "ipython",
-    "jupyter-core<4.8,>=4.7",
-    "nbclient<0.6,>=0.5",
-    "nbconvert<7,>=6",
-    "nbformat[fast]<6,>=4",
-    "traitlets<6,>=5",
-    "typing-extensions",
+    "astunparse>=1.6; python_version < \"3.9\"",
+    "ipython>=7.33.0",
+    "jupyter-core>=4.7",
+    "nbclient>=0.5.12",
+    "nbconvert>=6.0",
+    "nbformat[fast]>=5",
+    "traitlets>=5",
+    "typing-extensions>=3.10",
 ]
 
 [[package]]
@@ -751,7 +751,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:c89ef8e0908db6d1870e8bb59298a6df0f46af23f11fc16b6d4605237dcb4269"
+content_hash = "sha256:b258efddcbd536fc8afce5fef1fc663198349cf48069caf43e224964b71e5a91"
 
 [metadata.files]
 "anyio 3.5.0" = [
@@ -984,9 +984,9 @@ content_hash = "sha256:c89ef8e0908db6d1870e8bb59298a6df0f46af23f11fc16b6d4605237
     {file = "jupyterlab_server-2.13.0-py3-none-any.whl", hash = "sha256:fc9e86d4e7c4b139de59b0a96b53071e670bee1ed106a3389daecd68f1221aeb"},
     {file = "jupyterlab_server-2.13.0.tar.gz", hash = "sha256:2040298a133458aa22f287a877d6bb91ff973f6298d562264f9f7b75e92a5ace"},
 ]
-"literary 3.0.2" = [
-    {file = "literary-3.0.2-py3-none-any.whl", hash = "sha256:e27ae87d2c5b8a61466eb967c054550c2e538165a91cc7bc5f2e805841fb8c9a"},
-    {file = "literary-3.0.2.tar.gz", hash = "sha256:a199a72006e674c301bc9303db9779515d359bfce07b5629ffbed8e8cc373bb7"},
+"literary 4.0.0a0" = [
+    {file = "literary-4.0.0a0-py3-none-any.whl", hash = "sha256:aeb1156c67824dd356bffffec976fc81f2de88f00bd12a73d4a38881a3e76b63"},
+    {file = "literary-4.0.0a0.tar.gz", hash = "sha256:1431bcaca7977c2423ef0a025ffdcb426679afdc004cb0ec6baf741888f558d0"},
 ]
 "markupsafe 2.1.1" = [
     {file = "MarkupSafe-2.1.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:86b1f75c4e7c2ac2ccdaec2b9022845dbb81880ca318bb7a0a01fbf7813e3812"},

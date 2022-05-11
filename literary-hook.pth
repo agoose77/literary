@@ -1,0 +1,2 @@
+# Install notebook import hook
+import literary.hook; literary.hook.install_import_hook()

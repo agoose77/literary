@@ -1,6 +1,6 @@
 [project]
 name = "literary"
-version = "4.0.0a0"
+version = "4.0.0a1"
 description = "Literate package development with Jupyter"
 authors = [
     {name = "Angus Hollands", email = "goosey15@gmail.com"},
@@ -64,13 +64,14 @@ exclude = ["lib"]
 
 # Include generated package for wheels
 [tool.hatch.build.targets.wheel.force-include]
+# Unpack built lib into root
 "lib" = "/"
-
+# Install hook into environment
+"literary-hook.pth" = "literary-hook.pth"
 
 [tool.hatch.build.targets.wheel.shared-data]
 "share/jupyter/nbconvert/templates/literary/conf.json" = "share/jupyter/nbconvert/templates/literary/conf.json"
 "share/jupyter/nbconvert/templates/literary/index.py.j2" = "share/jupyter/nbconvert/templates/literary/index.py.j2"
-
 
 [tool.hatch.build.targets.wheel.hooks.literary]
 dependencies = ["literary-build-hatch>=0.2.0a3"]
