@@ -1,6 +1,6 @@
 [project]
 name = "literary"
-version = "4.0.0"
+version = "4.0.0a0"
 description = "Literate package development with Jupyter"
 authors = [
     {name = "Angus Hollands", email = "goosey15@gmail.com"},
