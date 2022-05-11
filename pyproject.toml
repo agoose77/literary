@@ -1,3 +1,82 @@
+[project]
+name = "literary"
+version = "4.0.0"
+description = "Literate package development with Jupyter"
+authors = [
+    {name = "Angus Hollands", email = "goosey15@gmail.com"},
+]
+dependencies = [
+    "nbformat[fast]>=5",
+    "nbclient>=0.5.12",
+    "nbconvert>=6.0",
+    "traitlets>=5",
+    "astunparse>=1.6; python_version < \"3.9\"",
+    "ipython>=7.33.0",
+    "typing-extensions>=3.10",
+    "jupyter-core>=4.7",
+]
+requires-python = ">=3.7"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9"]
+keywords = [
+    "literate-programming",
+    "jupyter",
+    "notebooks",
+    "nbconvert"
+]
+
+[project.urls]
+"Repository" = "http://github.com/agoose77/literary"
+"Bug Tracker" = "http://github.com/agoose77/literary/issues"
+
+[project.scripts]
+literary = "literary.commands.__main__:launch_new_instance"
+
+[project.entry-points."nbconvert.exporters"]
+literary = "literary.transpile.exporter:LiteraryExporter"
+
+[project.optional-dependencies]
+
+[tool]
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "jupyterlab>=3.4.0",
+    "pytest>=7.1.2",
+    "literary>=3.0.0",
+]
+
+[tool.hatch.build]
+only-packages = true
+# Ensure even if VCS includes file, we don't!
+exclude = ["lib"]
+
+# Include generated package for wheels
+[tool.hatch.build.targets.wheel.force-include]
+"lib" = "/"
+
+
+[tool.hatch.build.targets.wheel.shared-data]
+"share/jupyter/nbconvert/templates/literary/conf.json" = "share/jupyter/nbconvert/templates/literary/conf.json"
+"share/jupyter/nbconvert/templates/literary/index.py.j2" = "share/jupyter/nbconvert/templates/literary/index.py.j2"
+
+
+[tool.hatch.build.targets.wheel.hooks.literary]
+dependencies = ["literary-build-hatch"]
+
+
 [build-system]
-requires = ["wheel", "literary-build>=2.0.0,<3.0.0"]
-build-backend = "literary.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
