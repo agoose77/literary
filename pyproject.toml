@@ -59,8 +59,7 @@ dev = [
 ]
 
 [tool.hatch.build]
-only-packages = true
-# Ensure even if VCS includes file, we don't!
+# Ensure even if VCS includes lib, we don't!
 exclude = ["lib"]
 
 # Include generated package for wheels
