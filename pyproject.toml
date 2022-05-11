@@ -55,7 +55,7 @@ literary = "literary.transpile.exporter:LiteraryExporter"
 dev = [
     "jupyterlab>=3.4.0",
     "pytest>=7.1.2",
-    "literary>=3.0.0",
+    "literary>=4.0.0a0",
 ]
 
 [tool.hatch.build]
@@ -73,7 +73,7 @@ exclude = ["lib"]
 
 
 [tool.hatch.build.targets.wheel.hooks.literary]
-dependencies = ["literary-build-hatch"]
+dependencies = ["literary-build-hatch>=0.2.0a3"]
 
 
 [build-system]
