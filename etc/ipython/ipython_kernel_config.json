@@ -1,0 +1,7 @@
+{
+    "IPKernelApp": {
+        "extensions": [
+            "literary.module"
+        ]
+    }
+}

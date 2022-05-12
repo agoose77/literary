@@ -72,6 +72,7 @@ exclude = ["lib"]
 [tool.hatch.build.targets.wheel.shared-data]
 "share/jupyter/nbconvert/templates/literary/conf.json" = "share/jupyter/nbconvert/templates/literary/conf.json"
 "share/jupyter/nbconvert/templates/literary/index.py.j2" = "share/jupyter/nbconvert/templates/literary/index.py.j2"
+"etc/ipython/ipython_kernel_config.json" = "etc/ipython/ipython_kernel_config.json"
 
 [tool.hatch.build.targets.wheel.hooks.literary]
 dependencies = ["literary-build-hatch>=0.2.0a3"]
