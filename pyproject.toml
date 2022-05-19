@@ -55,7 +55,7 @@ literary = "literary.transpile.exporter:LiteraryExporter"
 dev = [
     "jupyterlab>=3.4.0",
     "pytest>=7.1.2",
-    "literary>=4.0.0a0",
+    "literary>=4.0.0",
     "jupyterlab-code-formatter>=1.4.11",
     "black>=22.3.0",
     "isort>=5.10.1",
@@ -67,8 +67,6 @@ exclude = ["lib"]
 
 # Include generated package for wheels
 [tool.hatch.build.targets.wheel.force-include]
-# Unpack built lib into root
-"lib" = "/"
 # Install hook into environment
 "literary.pth" = "literary.pth"
 
@@ -77,7 +75,7 @@ exclude = ["lib"]
 "share/jupyter/nbconvert/templates/literary/index.py.j2" = "share/jupyter/nbconvert/templates/literary/index.py.j2"
 
 [tool.hatch.build.targets.wheel.hooks.literary]
-dependencies = ["literary-build-hatch>=0.2.0a10"]
+dependencies = ["literary-build-hatch>=0.3.0"]
 
 
 [build-system]
