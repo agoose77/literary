@@ -15,6 +15,9 @@
 [wiki]: https://github.com/agoose77/literary/wiki
 
 ## TL;DR
+> [!Info]
+> To get started, see [the wiki]
+
 Literary is a Python tool to make Jupyter (IPython) notebooks behave like pure-Python packages. This allows pure-Python packages to be generated from notebooks, and notebooks to be imported at runtime. Literary now [bootstraps itself](https://en.wikipedia.org/wiki/Bootstrapping); it is developed with Literary 🤯.
 
 This package is an exploration of the [literate programming](http://www.literateprogramming.com) idea [pioneered by
@@ -37,3 +40,5 @@ notebooks
  be generated from the notebooks, and it must use the conventional import model. For
  this reason, `literary` should only exist as a development dependency of
  the package.
+
+[the wiki]: https://github.com/agoose77/literary/wiki
