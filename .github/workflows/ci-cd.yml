@@ -12,7 +12,6 @@ on:
     types:
       - published
 
-
 jobs:
   dist:
     name: Build package
@@ -32,7 +31,7 @@ jobs:
         run: |
           pip install build wheel 
           pyproject-build -ws
-          
+
       - name: Check metadata
         run: |
           pip install twine
@@ -42,7 +41,7 @@ jobs:
         with:
           name: build
           path: dist/*
-        
+
   checks:
     name: Check Python ${{ matrix.python-version }}
     needs: [dist]
@@ -66,12 +65,12 @@ jobs:
           path: dist
 
       - name: Install build + test dependencies
-        run: pip install pytest dist/*.whl nbconvert ipykernel
+        run: pip install pytest dist/*.whl nbconvert ipykernel literary
 
       - name: Test package
         env:
-          # Set CWD (editable install would normally do this)
-          PYTHONPATH: "${{ github.workspace }}/src:${{ github.workspace }}/examples/src"
+          # Set PYTHONPATH to include example
+          PYTHONPATH: "${{ github.workspace }}/examples/src"
         run: literary test --debug
   publish:
     name: Publish to PyPI
