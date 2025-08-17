@@ -6,16 +6,15 @@ authors = [
     {name = "Angus Hollands", email = "goosey15@gmail.com"},
 ]
 dependencies = [
-    "nbformat[fast]>=5",
+    "nbformat>=5.10",
     "nbclient>=0.5.12",
     "nbconvert>=6.0",
     "traitlets>=5",
-    "astunparse>=1.6; python_version < \"3.9\"",
-    "ipython>=7.33.0",
+    "ipython>=7.33",
     "typing-extensions>=3.10",
     "jupyter-core>=4.7",
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = [
@@ -27,9 +26,11 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9"]
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13"]
 keywords = [
     "literate-programming",
     "jupyter",
@@ -49,16 +50,15 @@ literary = "literary.transpile.exporter:LiteraryExporter"
 
 [project.optional-dependencies]
 
-[tool]
-[tool.pdm]
-[tool.pdm.dev-dependencies]
-dev = [
+[dependency-groups]
+develop = [
     "jupyterlab>=3.4.0",
     "pytest>=7.1.2",
-    "literary>=4.0.0",
     "jupyterlab-code-formatter>=1.4.11",
     "black>=22.3.0",
     "isort>=5.10.1",
+    # Needed for building literary live!
+    "literary>=4.0.1"
 ]
 
 [tool.hatch.build]
