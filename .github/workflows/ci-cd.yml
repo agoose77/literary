@@ -65,7 +65,7 @@ jobs:
           path: dist
 
       - name: Install build + test dependencies
-        run: pip install pytest dist/*.whl nbconvert ipykernel literary
+        run: pip install pytest dist/*.whl nbconvert ipykernel
 
       - name: Test package
         env:
