@@ -57,7 +57,10 @@
         fi
         ###########################
 
-        export PYTHONPATH="$(git rev-parse --show-toplevel)/lib/"
+        # Add src/ to PYTHONPATH. Normally, an editable install would
+        # do this, but we can't install literary editably as it is 
+        # already bootstrapped.
+        export PYTHONPATH="$(git rev-parse --show-toplevel)/src/"
 
         # Activate venv
         source .venv/bin/activate
