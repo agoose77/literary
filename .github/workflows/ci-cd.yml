@@ -71,7 +71,7 @@ jobs:
       - name: Test package
         env:
           # Set CWD (editable install would normally do this)
-          PYTHONPATH: "${{ github.workspace }}/src/"
+          PYTHONPATH: "${{ github.workspace }}/src:${{ github.workspace }}/examples/src"
         run: literary test
   publish:
     name: Publish to PyPI
