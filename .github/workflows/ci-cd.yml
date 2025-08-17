@@ -70,7 +70,7 @@ jobs:
       - name: Test package
         env:
           # Set PYTHONPATH to include example
-          PYTHONPATH: "${{ github.workspace }}/examples/src"
+          PYTHONPATH: "${{ github.workspace }}/src:${{ github.workspace }}/examples/src"
         run: literary test
   publish:
     name: Publish to PyPI
