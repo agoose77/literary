@@ -71,7 +71,7 @@ jobs:
         env:
           # Set PYTHONPATH to include example
           PYTHONPATH: "${{ github.workspace }}/examples/src"
-        run: literary test --debug
+        run: literary test
   publish:
     name: Publish to PyPI
     needs: [dist, checks]
@@ -83,7 +83,4 @@ jobs:
           name: build
           path: dist
 
-      - uses: pypa/gh-action-pypi-publish@v1.4.2
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
+      - uses: pypa/gh-action-pypi-publish@release/v1
