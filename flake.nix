@@ -1,8 +1,3 @@
-# code-owner: @agoose77
-# This flake sets up an FSH dev-shell that installs all the required
-# packages for running deployer, and then installs the tool in the virtual environment
-# It is not best-practice for the nix-way of distributing this code,
-# but its purpose is to get an environment up and running.
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -27,8 +22,6 @@
           ninja
           gcc
           pre-commit
-          # Infra packages
-          nodejs
         ]);
       shellHook = ''
         # Unset leaky PYTHONPATH
@@ -58,9 +51,11 @@
         ###########################
 
         # Add src/ to PYTHONPATH. Normally, an editable install would
-        # do this, but we can't install literary editably as it is 
+        # do this, but we can't install literary editably as it is
         # already bootstrapped.
-        export PYTHONPATH="$(git rev-parse --show-toplevel)/src/"
+        # Also add examples for same reason
+        __root="$(git rev-parse --show-toplevel)"
+        export PYTHONPATH="$__root/src:$__root/examples/src"
 
         # Activate venv
         source .venv/bin/activate
